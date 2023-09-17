@@ -2,24 +2,16 @@ import sys
 
 import pygame
 
-from game import Game
-from settings import Settings
-from clock import Clock
 
+class Game:
+    """Klasa główna gry."""
 
-class Program:
-    """Klasa główna programu."""
-
-    def __init__(self):
-        pygame.init()
+    def __init__(self, program):
         self.running = True
-        self.settings = Settings()
-
-        self.screen = pygame.display.set_mode((self.settings.screen_width,
-                                               self.settings.screen_height))
-        pygame.display.set_caption(self.settings.title)
-
-        self.clock = Clock(self)
+        self.settings = program.settings
+        self.clock = program.clock
+        self.screen = program.screen
+        self.bg_image = pygame.image.load("images/game_bg.bmp")
 
     def _check_events(self):
         """Reakcja na zdarzenia generowane przez klawiaturę i myszkę."""
@@ -29,12 +21,10 @@ class Program:
             elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_q:
                     self.running = False
-                elif event.key == pygame.K_d:
-                    Game(self).run()
 
     def _update_screen(self):
         """Odświeżanie ekranu."""
-        self.screen.fill((55, 88, 22))
+        self.screen.blit(self.bg_image, (0, 0))
         pygame.display.flip()
 
     def run(self):
